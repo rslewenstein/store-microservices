@@ -4,6 +4,7 @@ using WebApi.Products.Infrastructure.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Register the context
 builder.Services.AddSingleton<ProductContext>();
 
 // Add services to the container.
@@ -23,7 +24,7 @@ builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 
-// Configura o Banco
+// Setup the Dapper
 {
     using var scope = app.Services.CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<ProductContext>();
