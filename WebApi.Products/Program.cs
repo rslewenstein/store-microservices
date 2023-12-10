@@ -1,11 +1,20 @@
 using AutoMapper;
+using WebApi.Products.Application;
+using WebApi.Products.Application.Interfaces;
 using WebApi.Products.Infrastructure.Data;
+using WebApi.Products.Infrastructure.Data.Interfaces;
 using WebApi.Products.Infrastructure.Helper;
+using WebApi.Products.Infrastructure.Repository;
+using WebApi.Products.Infrastructure.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register the context
+// Register the interfaces
 builder.Services.AddSingleton<ProductContext>();
+builder.Services.AddScoped<ICreateConnection, CreateConnection>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -24,7 +33,7 @@ builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 
-// Setup the Dapper
+// Setup Dapper
 {
     using var scope = app.Services.CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<ProductContext>();

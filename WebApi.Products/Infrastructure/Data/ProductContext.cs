@@ -1,26 +1,22 @@
 using System.Data;
 using Dapper;
 using Microsoft.Data.Sqlite;
+using WebApi.Products.Infrastructure.Data.Interfaces;
 
 namespace WebApi.Products.Infrastructure.Data
 {
     public class ProductContext
     {
-        protected readonly IConfiguration Configuration;
+        private readonly ICreateConnection _createConn;
 
-        public ProductContext(IConfiguration configuration)
+        public ProductContext(ICreateConnection createConn)
         {
-            Configuration = configuration;
-        }
-
-        public IDbConnection CreateConnection()
-        {
-            return new SqliteConnection(Configuration.GetConnectionString("DefaultConnection"));
+            _createConn = createConn;
         }
 
         public async Task Init()
         {
-            using var connection = CreateConnection();
+            using var connection = _createConn.CreateConnectionDb();
             await _initProductsTables();
 
             async Task _initProductsTables()
