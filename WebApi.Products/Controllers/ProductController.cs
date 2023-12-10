@@ -29,5 +29,11 @@ namespace WebApi.Products.Controllers
         {
             return await _productService.ListAll();
         }
+
+        [HttpGet("{productId}")]
+        public async Task<ProductDto> GetProductById(int productId)
+        {
+            return await _productService.ListById(productId);
+        }
     }
 }

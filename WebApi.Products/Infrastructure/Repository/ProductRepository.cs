@@ -47,9 +47,18 @@ namespace WebApi.Products.Infrastructure.Repository
             return await connection.QueryAsync<Product>(sql);
         }
 
-        private Task<Product> GetById(int id)
+        private async Task<Product> GetById(int id)
         {
-            throw new NotImplementedException();
+            using var connection = _createConn.CreateConnectionDb();
+            var sql = 
+            """
+                SELECT 
+                ProductId, ProductName, ProductType, Quantity, Price  
+                FROM Products
+                WHERE ProductId  = @id
+            """;
+
+            return await connection.QueryFirstAsync<Product>(sql, new { id });
         }
 
         private Task Save()
