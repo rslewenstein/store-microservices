@@ -10,7 +10,7 @@ using WebApi.Products.Infrastructure.Repository.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 // Register the interfaces
-builder.Services.AddSingleton<ProductContext>();
+builder.Services.AddScoped<ProductContext>();
 builder.Services.AddScoped<ICreateConnection, CreateConnection>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();

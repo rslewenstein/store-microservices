@@ -9,9 +9,6 @@ namespace WebApi.Products.Infrastructure.Helper
         public MapperProfile() {
             CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>();
-
-            CreateMap<ProductStock, ProductStockDto>();
-            CreateMap<ProductStockDto, ProductStock>();
         }
     }
 }

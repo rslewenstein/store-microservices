@@ -61,12 +61,12 @@ namespace WebApi.Products.Application
         {
             try
             {
-                if (dto.Id < 0)
+                if (dto.ProductId < 0)
                     return;
 
-                ProductStock result = _mapper.Map<ProductStock>(await _productRepository.GetByIdAsync(dto.Id));
+                Product result = _mapper.Map<Product>(await _productRepository.GetByIdAsync(dto.ProductId));
 
-                if (result.Id > 0)
+                if (result.ProductId > 0)
                 {
                     result.Quantity = dto.Quantity;
                    await _productRepository.UpdateAsync(result);

@@ -28,7 +28,7 @@ namespace WebApi.Products.Infrastructure.Repository
             await Save();
         }
 
-        public async Task UpdateAsync(ProductStock entity)
+        public async Task UpdateAsync(Product entity)
         {
             await Update(entity);
         }
@@ -38,8 +38,10 @@ namespace WebApi.Products.Infrastructure.Repository
             using var connection = _createConn.CreateConnectionDb();
             var sql = 
             """
-                SELECT ProductId, ProductName, Type 
+                SELECT 
+                ProductId, ProductName, ProductType, Quantity, Price  
                 FROM Products
+                WHERE ProductId  > 0
             """;
 
             return await connection.QueryAsync<Product>(sql);
@@ -55,7 +57,7 @@ namespace WebApi.Products.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        private Task Update(ProductStock entity)
+        private Task Update(Product entity)
         {
             throw new NotImplementedException();
         }
