@@ -1,11 +1,19 @@
+using Dapper;
 using WebApi.Products.Domain;
+using WebApi.Products.Infrastructure.Data.Interfaces;
 using WebApi.Products.Infrastructure.Repository.Interfaces;
 
 namespace WebApi.Products.Infrastructure.Repository
 {
     public class ProductRepository : IProductRepository
     {
-        public async Task<IList<Product>> GetAllAsync()
+        private readonly ICreateConnection _createConn;
+
+        public ProductRepository(ICreateConnection createConn)
+        {
+            _createConn = createConn;
+        }
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
             return await GetAll();
         }
@@ -25,9 +33,16 @@ namespace WebApi.Products.Infrastructure.Repository
             await Update(entity);
         }
 
-        private Task<IList<Product>> GetAll()
+        private async Task<IEnumerable<Product>> GetAll()
         {
-            throw new NotImplementedException();
+            using var connection = _createConn.CreateConnectionDb();
+            var sql = 
+            """
+                SELECT ProductId, ProductName, Type 
+                FROM Products
+            """;
+
+            return await connection.QueryAsync<Product>(sql);
         }
 
         private Task<Product> GetById(int id)
