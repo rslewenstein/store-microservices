@@ -6,6 +6,6 @@ namespace WebApi.Products.Application.Interfaces
     {
         Task<IList<ProductDto>> ListAll();
         Task<ProductDto> ListById(int id);
-        Task UpdateQuantityProduct(ProductDto dto);
+        Task UpdateQuantityProduct(int id, int qtd);
     }
 }

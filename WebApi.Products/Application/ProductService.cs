@@ -57,18 +57,18 @@ namespace WebApi.Products.Application
             return result;
         }
 
-        public async Task UpdateQuantityProduct(ProductDto dto)
+        public async Task UpdateQuantityProduct(int id, int qtd)
         {
             try
             {
-                if (dto.ProductId < 0)
+                if (id < 0 && qtd < 1)
                     return;
 
-                Product result = _mapper.Map<Product>(await _productRepository.GetByIdAsync(dto.ProductId));
+                Product result = _mapper.Map<Product>(await _productRepository.GetByIdAsync(id));
 
                 if (result.ProductId > 0)
                 {
-                    result.Quantity = dto.Quantity;
+                    result.Quantity = qtd;
                    await _productRepository.UpdateAsync(result);
                 }
             }

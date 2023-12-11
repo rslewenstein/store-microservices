@@ -7,6 +7,5 @@ namespace WebApi.Products.Infrastructure.Repository.Interfaces
         Task<IEnumerable<Product>> GetAllAsync();
         Task<Product> GetByIdAsync(int id);
         Task UpdateAsync(Product entity);
-        Task SaveChangesAsync();
     }
 }

@@ -23,11 +23,6 @@ namespace WebApi.Products.Infrastructure.Repository
             return await GetById(id);
         }
 
-        public async Task SaveChangesAsync()
-        {
-            await Save();
-        }
-
         public async Task UpdateAsync(Product entity)
         {
             await Update(entity);
@@ -61,14 +56,15 @@ namespace WebApi.Products.Infrastructure.Repository
             return await connection.QueryFirstAsync<Product>(sql, new { id });
         }
 
-        private Task Save()
+        private async Task Update(Product entity)
         {
-            throw new NotImplementedException();
-        }
-
-        private Task Update(Product entity)
-        {
-            throw new NotImplementedException();
+            using var connection = _createConn.CreateConnectionDb();
+            var sql = """
+                UPDATE Products 
+                SET Quantity = Quantity - @Quantity
+                WHERE ProductId = @ProductId
+            """;
+            await connection.ExecuteAsync(sql, entity);
         }
     }
 }

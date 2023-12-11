@@ -35,5 +35,12 @@ namespace WebApi.Products.Controllers
         {
             return await _productService.ListById(productId);
         }
+
+        [HttpPut("{id}, {qtd}")]
+        public async Task<IActionResult> Update(int id, int qtd)
+        {
+            await _productService.UpdateQuantityProduct(id, qtd);
+            return Ok(new { message = "Product updated" });
+        }
     }
 }
