@@ -19,9 +19,9 @@ namespace WebApi.Chart.Infrastructure.Repository
             return await GetById(chartId);
         }
 
-        public async Task SaveAsync(ChartEntity entity)
+        public async Task<int> SaveAsync(ChartEntity entity)
         {
-            await Save(entity);
+            return await Save(entity);
         }
 
         private async Task<ChartEntity> GetById(int id)
@@ -38,7 +38,7 @@ namespace WebApi.Chart.Infrastructure.Repository
             return await connection.QueryFirstAsync<ChartEntity>(sql, new { id });
         }
 
-        private async Task Save(ChartEntity entity)
+        private async Task<int> Save(ChartEntity entity)
         {
             using var connection = _createConn.CreateConnectionDb();
             var sql = """
@@ -47,7 +47,9 @@ namespace WebApi.Chart.Infrastructure.Repository
                 VALUES 
                 (@UserId, @Order, @TotalPrice, @DateChart, @Confirmed);
             """;
-            await connection.ExecuteAsync(sql, entity);
+            var id = await connection.ExecuteAsync(sql, entity);
+
+            return id;
         }
     }
 }

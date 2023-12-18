@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Register the interfaces
 builder.Services.AddScoped<ChartContext>();
 builder.Services.AddScoped<ICreateConnection, CreateConnection>();
+builder.Services.AddScoped<IChartService, ChartService>();
+builder.Services.AddScoped<IChartRepository, ChartRepository>();
 
 // Add services to the container.
 
