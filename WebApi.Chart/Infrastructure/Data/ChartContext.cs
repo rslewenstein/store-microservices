@@ -24,10 +24,12 @@ namespace WebApi.Chart.Infrastructure.Data
                     CREATE TABLE IF NOT EXISTS 
                     Charts (
                         ChartId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                        UserId INT,
                         ProductId TEXT,
                         Quantity INTEGER,
-                        Total DOUBLE,
-                        ChartAccepted BOOL
+                        TotalPrice DOUBLE,
+                        DateChart TEXT,
+                        Confirmed BOOL
                     );
                 """;
                 await connection.ExecuteAsync(sql);

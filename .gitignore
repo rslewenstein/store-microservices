@@ -405,4 +405,7 @@ obj/
 .history
 .ionide
 
+# Local databases
 ProductDB.db
+ChartDB.db
+Payment.db
