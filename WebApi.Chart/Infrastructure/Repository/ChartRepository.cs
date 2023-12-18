@@ -1,18 +1,53 @@
+using Dapper;
 using WebApi.Chart.Domain;
+using WebApi.Chart.Infrastructure.Data.Interfaces;
 using WebApi.Chart.Infrastructure.Repository.Interfaces;
 
 namespace WebApi.Chart.Infrastructure.Repository
 {
     public class ChartRepository : IChartRepository
     {
-        public Task<ChartEntity> GetByChartIdAsync(int chartId)
+        private readonly ICreateConnection _createConn;
+
+        public ChartRepository(ICreateConnection createConn)
         {
-            throw new NotImplementedException();
+            _createConn = createConn;
         }
 
-        public Task SaveAsync(ChartEntity entity)
+        public async Task<ChartEntity> GetByChartIdAsync(int chartId)
         {
-            throw new NotImplementedException();
+            return await GetById(chartId);
+        }
+
+        public async Task SaveAsync(ChartEntity entity)
+        {
+            await Save(entity);
+        }
+
+        private async Task<ChartEntity> GetById(int id)
+        {
+            using var connection = _createConn.CreateConnectionDb();
+            var sql = 
+            """
+                SELECT 
+                ChartId, UserId, Order, TotalPrice, DateChart  
+                FROM Charts
+                WHERE ChartId  = @id
+            """;
+
+            return await connection.QueryFirstAsync<ChartEntity>(sql, new { id });
+        }
+
+        private async Task Save(ChartEntity entity)
+        {
+            using var connection = _createConn.CreateConnectionDb();
+            var sql = """
+                INSERT INTO 
+                Charts (UserId, Order, TotalPrice, DateChart, Confirmed)
+                VALUES 
+                (@UserId, @Order, @TotalPrice, @DateChart, @Confirmed);
+            """;
+            await connection.ExecuteAsync(sql, entity);
         }
     }
 }
