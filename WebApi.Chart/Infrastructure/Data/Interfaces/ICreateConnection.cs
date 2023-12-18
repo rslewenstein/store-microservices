@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace WebApi.Products.Infrastructure.Data.Interfaces
+namespace WebApi.Chart.Infrastructure.Data.Interfaces
 {
     public interface ICreateConnection
     {

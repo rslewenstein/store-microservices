@@ -1,4 +1,11 @@
+using WebApi.Chart.Infrastructure.Data;
+using WebApi.Chart.Infrastructure.Data.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Register the interfaces
+builder.Services.AddScoped<ChartContext>();
+builder.Services.AddScoped<ICreateConnection, CreateConnection>();
 
 // Add services to the container.
 
@@ -8,6 +15,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Setup Dapper
+{
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<ChartContext>();
+    await context.Init();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
