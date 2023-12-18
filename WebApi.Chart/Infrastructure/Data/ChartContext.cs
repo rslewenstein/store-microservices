@@ -25,8 +25,7 @@ namespace WebApi.Chart.Infrastructure.Data
                     Charts (
                         ChartId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                         UserId INT,
-                        ProductId TEXT,
-                        Quantity INTEGER,
+                        Order TEXT,
                         TotalPrice DOUBLE,
                         DateChart TEXT,
                         Confirmed BOOL
