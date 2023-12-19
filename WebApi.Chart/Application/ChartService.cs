@@ -1,5 +1,8 @@
+using System.Text.Json;
+using AutoMapper;
 using WebApi.Chart.Application.Interfaces;
 using WebApi.Chart.Domain;
+using WebApi.Chart.Domain.Dtos;
 using WebApi.Chart.Infrastructure.Repository.Interfaces;
 
 namespace WebApi.Chart.Application
@@ -7,14 +10,11 @@ namespace WebApi.Chart.Application
     public class ChartService : IChartService
     {
         private readonly IChartRepository _chartRepository;
-        public ChartService(IChartRepository chartRepository)
+        private readonly IMapper _mapper;
+        public ChartService(IChartRepository chartRepository, IMapper mapper)
         {
             _chartRepository = chartRepository;
-        }
-
-        public Task CheckCartReceived(ChartEntity chart)
-        {
-            throw new NotImplementedException();
+            _mapper = mapper;
         }
 
         public async Task<ChartEntity> GetById(int id)
@@ -36,22 +36,36 @@ namespace WebApi.Chart.Application
             return result;
         }
 
-        public async Task SaveChart(ChartEntity chart)
+        public Task SendQuantityToProduct(int productId, int quantity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task ManageChart(ChartDto dto)
+        {
+            if(dto.Orders?.Select(x => Convert.ToInt32(x.ProductId)).First() > 0)
+            {
+                ChartEntity entity = _mapper.Map<ChartEntity>(dto);
+                entity.DateChart = DateTime.Now;
+                entity.Orders = SerializeOrders(dto.Orders);
+                await SaveChart(entity);
+
+                foreach (var item in dto.Orders)
+                {
+                    await SendQuantityToProduct(item.ProductId, item.Quantity);
+                }
+            }
+        }
+
+        private async Task SaveChart(ChartEntity chart)
         {
             try
             {
-                if (string.IsNullOrEmpty(chart.Order))
+                if(string.IsNullOrEmpty(chart.Orders))
                     return;
-
-                var id = await _chartRepository.SaveAsync(chart);
-                chart.ChartId = id;
-
-                if(id > 0)
-                {
-                    await SendToPayment(chart);
-                    await ManageChart(chart);
-                }
-
+                
+                await _chartRepository.SaveAsync(chart);
+                chart.ChartId = await _chartRepository.GetLastByIdAsync();
             }
             catch(Exception ex)
             {
@@ -59,27 +73,16 @@ namespace WebApi.Chart.Application
             }
         }
 
-        public Task SendQuantityToProduct(int productId, int quantity)
+        private static string SerializeOrders(List<Order> orders)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task SendToPayment(ChartEntity chart)
-        {
-            throw new NotImplementedException();
-        }
-
-        private async Task ManageChart(ChartEntity chart)
-        {
-            int productId = 0;
-            int quantity = 0;
-            if(!string.IsNullOrEmpty(chart.Order))
+            try
             {
-                foreach (var item in chart.Order.ToArray())
-                {
-                    await SendQuantityToProduct(productId, quantity);
-                }
+                return JsonSerializer.Serialize(orders);
             }
+            catch(Exception ex)
+            {
+                throw new Exception();
+            } 
         }
     }
 }

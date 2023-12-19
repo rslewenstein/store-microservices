@@ -4,7 +4,8 @@ namespace WebApi.Chart.Infrastructure.Repository.Interfaces
 {
     public interface IChartRepository
     {
-        Task<int> SaveAsync(ChartEntity entity);
+        Task SaveAsync(ChartEntity entity);
         Task<ChartEntity> GetByChartIdAsync(int chartId);
+        Task<int> GetLastByIdAsync();
     }
 }

@@ -15,9 +15,9 @@ namespace WebApi.Chart.Infrastructure.Data
         public async Task Init()
         {
             using var connection = _createConn.CreateConnectionDb();
-            await _initProductsTables();
+            await _initChartTables();
 
-            async Task _initProductsTables()
+            async Task _initChartTables()
             {
                 var sql = 
                 """
@@ -25,7 +25,7 @@ namespace WebApi.Chart.Infrastructure.Data
                     Charts (
                         ChartId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                         UserId INT,
-                        Order TEXT,
+                        Orders TEXT,
                         TotalPrice DOUBLE,
                         DateChart TEXT,
                         Confirmed BOOL

@@ -19,9 +19,14 @@ namespace WebApi.Chart.Infrastructure.Repository
             return await GetById(chartId);
         }
 
-        public async Task<int> SaveAsync(ChartEntity entity)
+        public async Task<int> GetLastByIdAsync()
         {
-            return await Save(entity);
+            return await GetLastById();
+        }
+
+        public async Task SaveAsync(ChartEntity entity)
+        {
+            await Save(entity);
         }
 
         private async Task<ChartEntity> GetById(int id)
@@ -30,7 +35,7 @@ namespace WebApi.Chart.Infrastructure.Repository
             var sql = 
             """
                 SELECT 
-                ChartId, UserId, Order, TotalPrice, DateChart  
+                ChartId, UserId, Orders, TotalPrice, DateChart  
                 FROM Charts
                 WHERE ChartId  = @id
             """;
@@ -38,18 +43,30 @@ namespace WebApi.Chart.Infrastructure.Repository
             return await connection.QueryFirstAsync<ChartEntity>(sql, new { id });
         }
 
-        private async Task<int> Save(ChartEntity entity)
+        private async Task<int> GetLastById()
+        {
+            using var connection = _createConn.CreateConnectionDb();
+            var sql = 
+            """
+                SELECT 
+                ChartId  
+                FROM Charts
+                ORDER BY ChartId Desc
+            """;
+
+            return await connection.QueryFirstAsync<int>(sql);
+        }
+
+        private async Task Save(ChartEntity entity)
         {
             using var connection = _createConn.CreateConnectionDb();
             var sql = """
                 INSERT INTO 
-                Charts (UserId, Order, TotalPrice, DateChart, Confirmed)
+                Charts (UserId, Orders, TotalPrice, DateChart, Confirmed)
                 VALUES 
-                (@UserId, @Order, @TotalPrice, @DateChart, @Confirmed);
+                (@UserId, @Orders, @TotalPrice, @DateChart, @Confirmed);
             """;
-            var id = await connection.ExecuteAsync(sql, entity);
-
-            return id;
+            await connection.ExecuteAsync(sql, entity);
         }
     }
 }
