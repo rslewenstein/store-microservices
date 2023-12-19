@@ -47,14 +47,35 @@ namespace WebApi.Chart.Application
             {
                 ChartEntity entity = _mapper.Map<ChartEntity>(dto);
                 entity.DateChart = DateTime.Now;
+                entity.TotalPrice = CalculeValueTotal(dto);
                 entity.Orders = SerializeOrders(dto.Orders);
                 await SaveChart(entity);
 
+                //TODO: mensageria
+                // foreach (var item in dto.Orders)
+                // {
+                //     await SendQuantityToProduct(item.ProductId, item.Quantity);
+                // }
+            }
+        }
+
+        private double CalculeValueTotal(ChartDto dto)
+        {
+            double result = 0;
+            try
+            {
                 foreach (var item in dto.Orders)
                 {
-                    await SendQuantityToProduct(item.ProductId, item.Quantity);
+                    double total = item.Quantity * item.Price;
+                    result += total;
                 }
             }
+            catch (System.Exception)
+            {   
+                throw;
+            }
+        
+            return result;
         }
 
         private async Task SaveChart(ChartEntity chart)
