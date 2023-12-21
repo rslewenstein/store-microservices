@@ -1,19 +1,19 @@
 using AutoMapper;
-using WebApi.Chart.Application;
-using WebApi.Chart.Application.Interfaces;
-using WebApi.Chart.Domain.Helper;
-using WebApi.Chart.Infrastructure.Data;
-using WebApi.Chart.Infrastructure.Data.Interfaces;
-using WebApi.Chart.Infrastructure.Repository;
-using WebApi.Chart.Infrastructure.Repository.Interfaces;
+using WebApi.ShoppingCart.Application;
+using WebApi.ShoppingCart.Application.Interfaces;
+using WebApi.ShoppingCart.Domain.Helper;
+using WebApi.ShoppingCart.Infrastructure.Data;
+using WebApi.ShoppingCart.Infrastructure.Data.Interfaces;
+using WebApi.ShoppingCart.Infrastructure.Repository;
+using WebApi.ShoppingCart.Infrastructure.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Register the interfaces
-builder.Services.AddScoped<ChartContext>();
+builder.Services.AddScoped<ShoppingCartContext>();
 builder.Services.AddScoped<ICreateConnection, CreateConnection>();
-builder.Services.AddScoped<IChartService, ChartService>();
-builder.Services.AddScoped<IChartRepository, ChartRepository>();
+builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
+builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 
 // Add services to the container.
 
@@ -36,7 +36,7 @@ var app = builder.Build();
 // Setup Dapper
 {
     using var scope = app.Services.CreateScope();
-    var context = scope.ServiceProvider.GetRequiredService<ChartContext>();
+    var context = scope.ServiceProvider.GetRequiredService<ShoppingCartContext>();
     await context.Init();
 }
 

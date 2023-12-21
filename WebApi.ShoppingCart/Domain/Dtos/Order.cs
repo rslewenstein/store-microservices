@@ -1,5 +1,5 @@
 
-namespace WebApi.Chart.Domain.Dtos
+namespace WebApi.ShoppingCart.Domain.Dtos
 {
     public class Order
     {

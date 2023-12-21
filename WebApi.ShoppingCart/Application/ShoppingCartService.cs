@@ -1,31 +1,31 @@
 using System.Text.Json;
 using AutoMapper;
-using WebApi.Chart.Application.Interfaces;
-using WebApi.Chart.Domain;
-using WebApi.Chart.Domain.Dtos;
-using WebApi.Chart.Infrastructure.Repository.Interfaces;
+using WebApi.ShoppingCart.Application.Interfaces;
+using WebApi.ShoppingCart.Domain;
+using WebApi.ShoppingCart.Domain.Dtos;
+using WebApi.ShoppingCart.Infrastructure.Repository.Interfaces;
 
-namespace WebApi.Chart.Application
+namespace WebApi.ShoppingCart.Application
 {
-    public class ChartService : IChartService
+    public class ShoppingCartService : IShoppingCartService
     {
-        private readonly IChartRepository _chartRepository;
+        private readonly IShoppingCartRepository _ShoppingCartRepository;
         private readonly IMapper _mapper;
-        public ChartService(IChartRepository chartRepository, IMapper mapper)
+        public ShoppingCartService(IShoppingCartRepository ShoppingCartRepository, IMapper mapper)
         {
-            _chartRepository = chartRepository;
+            _ShoppingCartRepository = ShoppingCartRepository;
             _mapper = mapper;
         }
 
-        public async Task<ChartEntity> GetById(int id)
+        public async Task<ShoppingCartEntity> GetById(int id)
         {
-            ChartEntity? result = new();
+            ShoppingCartEntity? result = new();
     
             try
             {
                 if (id > 0)
                 {
-                    result = await _chartRepository.GetByChartIdAsync(id);
+                    result = await _ShoppingCartRepository.GetByShoppingCartIdAsync(id);
                 }
             }
             catch(Exception ex)
@@ -41,15 +41,15 @@ namespace WebApi.Chart.Application
             throw new NotImplementedException();
         }
 
-        public async Task ManageChart(ChartDto dto)
+        public async Task ManageShoppingCart(ShoppingCartDto dto)
         {
             if(dto.Orders?.Select(x => Convert.ToInt32(x.ProductId)).First() > 0)
             {
-                ChartEntity entity = _mapper.Map<ChartEntity>(dto);
-                entity.DateChart = DateTime.Now;
+                ShoppingCartEntity entity = _mapper.Map<ShoppingCartEntity>(dto);
+                entity.DateShoppingCart = DateTime.Now;
                 entity.TotalPrice = CalculeValueTotal(dto);
                 entity.Orders = SerializeOrders(dto.Orders);
-                await SaveChart(entity);
+                await SaveShoppingCart(entity);
 
                 //TODO: mensageria
                 // foreach (var item in dto.Orders)
@@ -59,7 +59,7 @@ namespace WebApi.Chart.Application
             }
         }
 
-        private double CalculeValueTotal(ChartDto dto)
+        private double CalculeValueTotal(ShoppingCartDto dto)
         {
             double result = 0;
             try
@@ -78,15 +78,15 @@ namespace WebApi.Chart.Application
             return result;
         }
 
-        private async Task SaveChart(ChartEntity chart)
+        private async Task SaveShoppingCart(ShoppingCartEntity ShoppingCart)
         {
             try
             {
-                if(string.IsNullOrEmpty(chart.Orders))
+                if(string.IsNullOrEmpty(ShoppingCart.Orders))
                     return;
                 
-                await _chartRepository.SaveAsync(chart);
-                chart.ChartId = await _chartRepository.GetLastByIdAsync();
+                await _ShoppingCartRepository.SaveAsync(ShoppingCart);
+                ShoppingCart.ShoppingCartId = await _ShoppingCartRepository.GetLastByIdAsync();
             }
             catch(Exception ex)
             {

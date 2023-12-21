@@ -1,8 +1,8 @@
 using System.Data;
 using Microsoft.Data.Sqlite;
-using WebApi.Chart.Infrastructure.Data.Interfaces;
+using WebApi.ShoppingCart.Infrastructure.Data.Interfaces;
 
-namespace WebApi.Chart.Infrastructure.Data
+namespace WebApi.ShoppingCart.Infrastructure.Data
 {
     public class CreateConnection : ICreateConnection
     {

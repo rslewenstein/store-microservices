@@ -407,5 +407,4 @@ obj/
 
 # Local databases
 ProductDB.db
-ChartDB.db
-Payment.db
+ShoppingCartDB.db

@@ -1,13 +1,13 @@
 using Dapper;
-using WebApi.Chart.Infrastructure.Data.Interfaces;
+using WebApi.ShoppingCart.Infrastructure.Data.Interfaces;
 
-namespace WebApi.Chart.Infrastructure.Data
+namespace WebApi.ShoppingCart.Infrastructure.Data
 {
-    public class ChartContext
+    public class ShoppingCartContext
     {
         private readonly ICreateConnection _createConn;
 
-        public ChartContext(ICreateConnection createConn)
+        public ShoppingCartContext(ICreateConnection createConn)
         {
             _createConn = createConn;
         }
@@ -15,19 +15,19 @@ namespace WebApi.Chart.Infrastructure.Data
         public async Task Init()
         {
             using var connection = _createConn.CreateConnectionDb();
-            await _initChartTables();
+            await _initShoppingCartTables();
 
-            async Task _initChartTables()
+            async Task _initShoppingCartTables()
             {
                 var sql = 
                 """
                     CREATE TABLE IF NOT EXISTS 
-                    Charts (
-                        ChartId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                    ShoppingCarts (
+                        ShoppingCartId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                         UserId INT,
                         Orders TEXT,
                         TotalPrice DOUBLE,
-                        DateChart TEXT,
+                        DateShoppingCart TEXT,
                         Confirmed BOOL
                     );
                 """;
