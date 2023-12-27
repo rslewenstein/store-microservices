@@ -12,3 +12,6 @@
 - http://localhost:15672/
 - user: guest
 - password: guest
+- queue: update_product_quantity
+
+- dotnet add package RabbitMQ.Client

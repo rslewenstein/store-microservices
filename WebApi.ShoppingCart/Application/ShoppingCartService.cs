@@ -3,18 +3,24 @@ using AutoMapper;
 using WebApi.ShoppingCart.Application.Interfaces;
 using WebApi.ShoppingCart.Domain;
 using WebApi.ShoppingCart.Domain.Dtos;
+using WebApi.ShoppingCart.Infrastructure.Messaging.Interfaces;
 using WebApi.ShoppingCart.Infrastructure.Repository.Interfaces;
 
 namespace WebApi.ShoppingCart.Application
 {
     public class ShoppingCartService : IShoppingCartService
     {
-        private readonly IShoppingCartRepository _ShoppingCartRepository;
+        private readonly IShoppingCartRepository _shoppingCartRepository;
         private readonly IMapper _mapper;
-        public ShoppingCartService(IShoppingCartRepository ShoppingCartRepository, IMapper mapper)
+        private readonly IMessageConnection _messageConnection;
+        public ShoppingCartService(
+            IShoppingCartRepository shoppingCartRepository, 
+            IMapper mapper, 
+            IMessageConnection messageConnection)
         {
-            _ShoppingCartRepository = ShoppingCartRepository;
+            _shoppingCartRepository = shoppingCartRepository;
             _mapper = mapper;
+            _messageConnection = messageConnection;
         }
 
         public async Task<ShoppingCartEntity> GetById(int id)
@@ -25,7 +31,7 @@ namespace WebApi.ShoppingCart.Application
             {
                 if (id > 0)
                 {
-                    result = await _ShoppingCartRepository.GetByShoppingCartIdAsync(id);
+                    result = await _shoppingCartRepository.GetByShoppingCartIdAsync(id);
                 }
             }
             catch(Exception ex)
@@ -34,11 +40,6 @@ namespace WebApi.ShoppingCart.Application
             }
 
             return result;
-        }
-
-        public Task SendQuantityToProduct(int productId, int quantity)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task ManageShoppingCart(ShoppingCartDto dto)
@@ -50,12 +51,7 @@ namespace WebApi.ShoppingCart.Application
                 entity.TotalPrice = CalculeValueTotal(dto);
                 entity.Orders = SerializeOrders(dto.Orders);
                 await SaveShoppingCart(entity);
-
-                //TODO: mensageria
-                // foreach (var item in dto.Orders)
-                // {
-                //     await SendQuantityToProduct(item.ProductId, item.Quantity);
-                // }
+                SendQuantityToProduct(entity.Orders);
             }
         }
 
@@ -78,15 +74,14 @@ namespace WebApi.ShoppingCart.Application
             return result;
         }
 
-        private async Task SaveShoppingCart(ShoppingCartEntity ShoppingCart)
+        private async Task SaveShoppingCart(ShoppingCartEntity shoppingCart)
         {
             try
             {
-                if(string.IsNullOrEmpty(ShoppingCart.Orders))
+                if(string.IsNullOrEmpty(shoppingCart.Orders))
                     return;
                 
-                await _ShoppingCartRepository.SaveAsync(ShoppingCart);
-                ShoppingCart.ShoppingCartId = await _ShoppingCartRepository.GetLastByIdAsync();
+                await _shoppingCartRepository.SaveAsync(shoppingCart);
             }
             catch(Exception ex)
             {
@@ -94,7 +89,7 @@ namespace WebApi.ShoppingCart.Application
             }
         }
 
-        private static string SerializeOrders(List<Order> orders)
+        private static string SerializeOrders(List<OrderDto> orders)
         {
             try
             {
@@ -104,6 +99,18 @@ namespace WebApi.ShoppingCart.Application
             {
                 throw new Exception();
             } 
+        }
+
+        private void SendQuantityToProduct(string orders)
+        {
+            try
+            {
+                _messageConnection.SendMessageToProduct(orders);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception();
+            }
         }
     }
 }

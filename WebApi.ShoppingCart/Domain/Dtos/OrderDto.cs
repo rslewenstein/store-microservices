@@ -1,7 +1,7 @@
 
 namespace WebApi.ShoppingCart.Domain.Dtos
 {
-    public class Order
+    public class OrderDto
     {
         public int ProductId { get; set; }
         public int Quantity { get; set; }

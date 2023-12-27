@@ -4,6 +4,8 @@ using WebApi.ShoppingCart.Application.Interfaces;
 using WebApi.ShoppingCart.Domain.Helper;
 using WebApi.ShoppingCart.Infrastructure.Data;
 using WebApi.ShoppingCart.Infrastructure.Data.Interfaces;
+using WebApi.ShoppingCart.Infrastructure.Messaging;
+using WebApi.ShoppingCart.Infrastructure.Messaging.Interfaces;
 using WebApi.ShoppingCart.Infrastructure.Repository;
 using WebApi.ShoppingCart.Infrastructure.Repository.Interfaces;
 
@@ -14,6 +16,7 @@ builder.Services.AddScoped<ShoppingCartContext>();
 builder.Services.AddScoped<ICreateConnection, CreateConnection>();
 builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
+builder.Services.AddScoped<IMessageConnection, MessageConnection>();
 
 // Add services to the container.
 

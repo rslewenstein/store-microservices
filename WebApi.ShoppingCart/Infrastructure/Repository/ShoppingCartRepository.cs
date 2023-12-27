@@ -14,9 +14,9 @@ namespace WebApi.ShoppingCart.Infrastructure.Repository
             _createConn = createConn;
         }
 
-        public async Task<ShoppingCartEntity> GetByShoppingCartIdAsync(int ShoppingCartId)
+        public async Task<ShoppingCartEntity> GetByShoppingCartIdAsync(int shoppingCartId)
         {
-            return await GetById(ShoppingCartId);
+            return await GetById(shoppingCartId);
         }
 
         public async Task<int> GetLastByIdAsync()

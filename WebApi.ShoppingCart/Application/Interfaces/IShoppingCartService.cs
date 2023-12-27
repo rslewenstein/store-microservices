@@ -7,7 +7,5 @@ namespace WebApi.ShoppingCart.Application.Interfaces
     {
         Task<ShoppingCartEntity> GetById(int id);
         Task ManageShoppingCart(ShoppingCartDto dto);
-
-        Task SendQuantityToProduct(int productId, int quantity);
     }
 }
