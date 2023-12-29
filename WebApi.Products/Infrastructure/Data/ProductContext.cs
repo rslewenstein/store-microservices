@@ -39,25 +39,25 @@ namespace WebApi.Products.Infrastructure.Data
             //     var sql = 
             //     """
             //         INSERT INTO Products (ProductName, ProductType, Quantity, Price)
-            //         Values ('Camisa Manchester United', '2023', 100, 239.90);
+            //         Values ('Camisa Manchester United', '2023', 1000, 239.90);
                             
             //         INSERT INTO Products (ProductName, ProductType, Quantity, Price)
-            //         Values ('Camisa Flamengo', 'Segundo uniforme - 2023', 120, 249.90);
+            //         Values ('Camisa Flamengo', 'Segundo uniforme - 2023', 1200, 249.90);
                             
             //         INSERT INTO Products (ProductName, ProductType, Quantity, Price)
-            //         Values ('Tenis Adidas', 'Runfalcon 3.0', 40, 269.99);
+            //         Values ('Tenis Adidas', 'Runfalcon 3.0', 4000, 269.99);
                             
             //         INSERT INTO Products (ProductName, ProductType, Quantity, Price)
-            //         Values ('Corta Vento Puma', 'Black', 50, 159.90);
+            //         Values ('Corta Vento Puma', 'Black', 5000, 159.90);
                             
             //         INSERT INTO Products (ProductName, ProductType, Quantity, Price)
-            //         Values ('Jaqueta Adidas', 'White', 60, 160.90);
+            //         Values ('Jaqueta Adidas', 'White', 6000, 160.90);
                             
             //         INSERT INTO Products (ProductName, ProductType, Quantity, Price)
-            //         Values ('Jaqueta Adidas', 'Black', 45, 155.90);
+            //         Values ('Jaqueta Adidas', 'Black', 4500, 155.90);
                             
             //         INSERT INTO Products (ProductName, ProductType, Quantity, Price)
-            //         Values ('Chuteira Puma King', 'Campo - Preta', 25, 281.29);    
+            //         Values ('Chuteira Puma King', 'Campo - Preta', 2500, 281.29);    
             //     """;
             //     await connection.ExecuteAsync(sql);
             // }

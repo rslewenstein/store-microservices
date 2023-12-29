@@ -2,7 +2,7 @@
 
 - Project used to study about microservices.
 
-<!-- <img src="img/store.jpg"> -->
+<!-- <img src="Util/img/store.jpg"> -->
 
 #### RabbitMQ
 

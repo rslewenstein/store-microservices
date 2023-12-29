@@ -25,8 +25,7 @@ namespace WebApi.ShoppingCart.Infrastructure.Messaging
                     autoDelete: false,
                     arguments: null);
 
-                var json = Newtonsoft.Json.JsonConvert.SerializeObject(orders);
-                var body = Encoding.UTF8.GetBytes(json);
+                var body = Encoding.UTF8.GetBytes(orders);
 
                 model.BasicPublish(
                     exchange: "",

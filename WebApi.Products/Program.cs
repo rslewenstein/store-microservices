@@ -4,17 +4,23 @@ using WebApi.Products.Application.Interfaces;
 using WebApi.Products.Infrastructure.Data;
 using WebApi.Products.Infrastructure.Data.Interfaces;
 using WebApi.Products.Infrastructure.Helper;
+using WebApi.Products.Infrastructure.Messaging;
+using WebApi.Products.Infrastructure.Messaging.Interfaces;
 using WebApi.Products.Infrastructure.Repository;
 using WebApi.Products.Infrastructure.Repository.Interfaces;
+using WebApi.Products.Infrastructure.Worker;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Register the interfaces
 builder.Services.AddScoped<ProductContext>();
-builder.Services.AddScoped<ICreateConnection, CreateConnection>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddSingleton<ICreateConnection, CreateConnection>();
+builder.Services.AddSingleton<IProductService, ProductService>();
+builder.Services.AddSingleton<IProductRepository, ProductRepository>();
+builder.Services.AddSingleton<IMessageConnection, MessageConnection>();
 
+// Calling worker
+builder.Services.AddHostedService<ProductWorker>();
 
 // Add services to the container.
 builder.Services.AddControllers();

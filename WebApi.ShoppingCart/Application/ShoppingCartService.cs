@@ -93,7 +93,7 @@ namespace WebApi.ShoppingCart.Application
         {
             try
             {
-                return JsonSerializer.Serialize(orders);
+                return Newtonsoft.Json.JsonConvert.SerializeObject(orders);
             }
             catch(Exception ex)
             {
