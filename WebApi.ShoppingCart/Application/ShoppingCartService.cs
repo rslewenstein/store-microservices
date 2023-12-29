@@ -1,4 +1,3 @@
-using System.Text.Json;
 using AutoMapper;
 using WebApi.ShoppingCart.Application.Interfaces;
 using WebApi.ShoppingCart.Domain;
@@ -13,14 +12,18 @@ namespace WebApi.ShoppingCart.Application
         private readonly IShoppingCartRepository _shoppingCartRepository;
         private readonly IMapper _mapper;
         private readonly IMessageConnection _messageConnection;
+        private readonly ILogger _logger;
+
         public ShoppingCartService(
             IShoppingCartRepository shoppingCartRepository, 
             IMapper mapper, 
-            IMessageConnection messageConnection)
+            IMessageConnection messageConnection,
+            ILogger<ShoppingCartService> logger)
         {
             _shoppingCartRepository = shoppingCartRepository;
             _mapper = mapper;
             _messageConnection = messageConnection;
+            _logger = logger;
         }
 
         public async Task<ShoppingCartEntity> GetById(int id)
@@ -32,11 +35,12 @@ namespace WebApi.ShoppingCart.Application
                 if (id > 0)
                 {
                     result = await _shoppingCartRepository.GetByShoppingCartIdAsync(id);
+                    _logger.LogInformation(message: $"[ShoppingCartService] Getting Shopping By Id: {id}");
                 }
             }
             catch(Exception ex)
             {
-                throw new Exception();
+                _logger.LogError(message: $"[ShoppingCartService] Error happend when it got to post shopping cart. Error: "+ ex);
             }
 
             return result;
@@ -48,14 +52,14 @@ namespace WebApi.ShoppingCart.Application
             {
                 ShoppingCartEntity entity = _mapper.Map<ShoppingCartEntity>(dto);
                 entity.DateShoppingCart = DateTime.Now;
-                entity.TotalPrice = CalculeValueTotal(dto);
+                entity.TotalPrice = CalculateTotalValue(dto);
                 entity.Orders = SerializeOrders(dto.Orders);
                 await SaveShoppingCart(entity);
                 SendQuantityToProduct(entity.Orders);
             }
         }
 
-        private double CalculeValueTotal(ShoppingCartDto dto)
+        private double CalculateTotalValue(ShoppingCartDto dto)
         {
             double result = 0;
             try
@@ -64,11 +68,12 @@ namespace WebApi.ShoppingCart.Application
                 {
                     double total = item.Quantity * item.Price;
                     result += total;
+                    _logger.LogInformation(message: $"[ShoppingCartService] Calculating total value");
                 }
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {   
-                throw;
+                _logger.LogError(message: $"[ShoppingCartService] Error happend when it tried to calculate total value. Error: "+ ex);
             }
         
             return result;
@@ -82,23 +87,28 @@ namespace WebApi.ShoppingCart.Application
                     return;
                 
                 await _shoppingCartRepository.SaveAsync(shoppingCart);
+                _logger.LogInformation(message: $"[ShoppingCartService] Save Shopping Cart");
             }
-            catch(Exception ex)
-            {
-                throw new Exception();
+            catch (Exception ex)
+            {   
+                _logger.LogError(message: $"[ShoppingCartService] Error happend when it tried to Save Shopping Cart. Error: "+ ex);
             }
         }
 
-        private static string SerializeOrders(List<OrderDto> orders)
+        private string SerializeOrders(List<OrderDto> orders)
         {
+            string? result = null;
             try
             {
+                _logger.LogInformation(message: $"[ShoppingCartService] Serializing...");
                 return Newtonsoft.Json.JsonConvert.SerializeObject(orders);
             }
             catch(Exception ex)
             {
-                throw new Exception();
+                _logger.LogError(message: $"[ShoppingCartService] Error happend when it tried to Save Shopping Cart. Error: "+ ex);
             } 
+
+            return result;
         }
 
         private void SendQuantityToProduct(string orders)
@@ -106,10 +116,11 @@ namespace WebApi.ShoppingCart.Application
             try
             {
                 _messageConnection.SendMessageToProduct(orders);
+                _logger.LogInformation(message: $"[ShoppingCartService] Send quantity to product");
             }
-            catch(Exception ex)
-            {
-                throw new Exception();
+            catch (Exception ex)
+            {   
+                _logger.LogError(message: $"[ShoppingCartService] Error happend when it tried to Send quantity to product. Error: "+ ex);
             }
         }
     }

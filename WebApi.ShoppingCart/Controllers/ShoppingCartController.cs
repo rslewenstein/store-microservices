@@ -24,12 +24,12 @@ namespace WebApi.ShoppingCart.Controllers
             ShoppingCartEntity? result = new();
             try
             {
-                _logger.LogInformation(message: $"Getting Shopping By Id: {ShoppingCartId}");
+                _logger.LogInformation(message: $"[ShoppingCartController] Getting Shopping By Id: {ShoppingCartId}");
                 result = await _ShoppingCartService.GetById(ShoppingCartId);
             }
             catch(Exception ex)
             {
-                _logger.LogError(message: $"Error when tryied Got Shopping By Id: {ShoppingCartId}. Error: "+ ex);
+                _logger.LogError(message: $"[ShoppingCartController] Error happend when it tried to Get Shopping By Id: {ShoppingCartId}. Error: "+ ex);
             }
             return result;
         }
@@ -40,11 +40,11 @@ namespace WebApi.ShoppingCart.Controllers
             try
             {
                 await _ShoppingCartService.ManageShoppingCart(dto);
-                _logger.LogInformation(message: $"Posted Shopping Cart");
+                _logger.LogInformation(message: $"[ShoppingCartController] Posted Shopping Cart");
             }
             catch(Exception ex)
             {
-                _logger.LogError(message: $"Error when tryied post shopping cart. Error: "+ ex);
+                _logger.LogError(message: $"[ShoppingCartController] Error happend when it tried to post shopping cart. Error: "+ ex);
                 return BadRequest(new { message = "Error to post shopping cart" });
             }
 

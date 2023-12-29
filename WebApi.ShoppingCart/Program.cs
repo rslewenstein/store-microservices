@@ -10,6 +10,8 @@ using WebApi.ShoppingCart.Infrastructure.Repository;
 using WebApi.ShoppingCart.Infrastructure.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Logger config
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
