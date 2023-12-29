@@ -1,6 +1,7 @@
 # Store 
 
 - Project used to study about microservices.
+- event-driven
 
 <!-- <img src="Util/img/store.jpg"> -->
 

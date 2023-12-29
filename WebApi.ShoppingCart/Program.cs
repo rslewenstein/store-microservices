@@ -10,6 +10,8 @@ using WebApi.ShoppingCart.Infrastructure.Repository;
 using WebApi.ShoppingCart.Infrastructure.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 // Register the interfaces
 builder.Services.AddScoped<ShoppingCartContext>();
@@ -19,7 +21,6 @@ builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 builder.Services.AddScoped<IMessageConnection, MessageConnection>();
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
