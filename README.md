@@ -34,16 +34,18 @@
 
 ### To run RabbitMQ:
 
-- I preferred not to install RabbitMQ because I don't have free space in my Virtual Machine, I've been using a Docker container.
+- I preferred not to install RabbitMQ because I don't have free space in my Virtual Machine, I've been using a Docker container to use RabbitMQ.
 
 - You can execute to create a container:
- ```docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management```
+ ```
+ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
+ ```
 
 - http://localhost:15672/
 - user: guest
 - password: guest
 
-- You needs to creat the queue called: 
+- You need to creat the queue called: 
 ```update_product_quantity```
 
 <img src="Util/img/rabbit.jpg" height="400px" />
