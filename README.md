@@ -7,7 +7,7 @@
 - The ShoppingCart Api sends by messaging (RabbitMQ) to Products Api: [ProductId and Qunatity].
 - Product Api consumes the queue and update the quantity by ProductId.
 
-<img src="Util/img/store.jpg">
+<img src="Util/img/store.jpg" height="400px" />
 
 ### Technologies applied:
 
@@ -46,14 +46,16 @@
 - You needs to creat the queue called: 
 ```update_product_quantity```
 
-<img src="Util/img/rabbit.jpg">
+<img src="Util/img/rabbit.jpg" height="400px" />
 
 - (You will need to create the queue everytime that you want use the system).
 
 - You can see more here: https://www.rabbitmq.com/download.html
 
 - In the Applications, It will be necessary install the RabbitMQ client.
-- To install, execute it:
+- To install the client, execute it:
 ```
  dotnet add package RabbitMQ.Client
  ```
+
+ 
