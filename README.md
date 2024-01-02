@@ -1,4 +1,5 @@
 # Store (Shopping cart services)
+- I've been updating this project constantly.
 - Simple project used to study about microservices and apply some technologies and knowledges.
 - Basically there are 2 WebApis: Product and Shopping Cart.
 - The Product Api sends a products list or unique product (get by id) to Front-end app, using HTTP requests.
@@ -7,7 +8,6 @@
 - Product Api consumes the queue and update the quantity by ProductId.
 
 <img src="Util/img/store.jpg">
-
 
 ### Technologies applied:
 
@@ -32,14 +32,28 @@
 - [ ] - Docker
 - [?] - Front End (I don't know if I will do it).
 
-#### RabbitMQ
+### To run RabbitMQ:
 
-- https://www.rabbitmq.com/download.html
-- docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
+- I preferred not to install RabbitMQ because I don't have free space in my Virtual Machine, I've been using a Docker container.
+
+- You can execute to create a container:
+ ```docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management```
 
 - http://localhost:15672/
 - user: guest
 - password: guest
-- queue: update_product_quantity
 
-- dotnet add package RabbitMQ.Client
+- You needs to creat the queue called: 
+```update_product_quantity```
+
+<img src="Util/img/rabbit.jpg">
+
+- (You will need to create the queue everytime that you want use the system).
+
+- You can see more here: https://www.rabbitmq.com/download.html
+
+- In the Applications, It will be necessary install the RabbitMQ client.
+- To install, execute it:
+```
+ dotnet add package RabbitMQ.Client
+ ```
