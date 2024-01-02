@@ -1,5 +1,5 @@
 # Store (Shopping cart services)
-- I've been updating this project constantly.
+- (I've been updating this project constantly).
 - Simple project used to study about microservices and apply some technologies and knowledges.
 - Basically there are 2 WebApis: Product and Shopping Cart.
 - The Product Api sends a products list or unique product (get by id) to Front-end app, using HTTP requests.
@@ -11,7 +11,7 @@
 
 ### Technologies applied:
 
-- [x] - .Net 7
+- [x] - .Net 7 (C#)
     - Product WebApi:
         - [x] - Clean Architecture
         - [x] - Dapper
@@ -52,10 +52,36 @@
 
 - You can see more here: https://www.rabbitmq.com/download.html
 
-- In the Applications, It will be necessary install the RabbitMQ client.
-- To install the client, execute it:
+- In the WebApis (Product and ShoppingCart), It will be necessary install the RabbitMQ client.
+ - To install the client, execute it:
 ```
  dotnet add package RabbitMQ.Client
  ```
 
- 
+ ### Running Product WebApi:
+- The first time that you run the WebApi, It will be created a Database.
+- Before to use the WebApi, you need populate the table (Products).
+- There is a script called ```Insert_product.sql``` in ```Util/Scripts```.
+- ...Or you can uncomment the lines commented in ```Infrastructure/Data/ProductContext.cs``` (line 19 and lines between 37 and 63).
+
+<img src="Util/img/code-product-context.jpg" height="500px" />
+
+- To run webapi, execute it:
+```
+dotnet run
+```
+- It will run on:
+- http://localhost:5013/swagger/index.html
+
+- (OBS): after the first time that you runned the WebApi, comment the lines (line 19 and lines between 37 and 63) again.
+
+
+### Running ShoppingCart WebApi:
+- The first time that you run the WebApi, It will be created a Database.
+- To run webapi, execute it:
+```
+dotnet run
+```
+
+- It will run on:
+ - http://localhost:5227/swagger/index.html
