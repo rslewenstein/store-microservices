@@ -12,6 +12,10 @@ using WebApi.Products.Infrastructure.Worker;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Logger config
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 // Register the interfaces
 builder.Services.AddScoped<ProductContext>();
 builder.Services.AddSingleton<ICreateConnection, CreateConnection>();

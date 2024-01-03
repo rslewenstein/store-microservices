@@ -10,10 +10,14 @@ namespace WebApi.Products.Application
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
-        public ProductService(IProductRepository productRepository, IMapper mapper)
+        private readonly ILogger _logger;
+        public ProductService(IProductRepository productRepository, 
+                              IMapper mapper,
+                              ILogger<ProductService> logger)
         {
             _productRepository = productRepository;
             _mapper = mapper;
+            _logger = logger;
         }
         public async Task<IList<ProductDto>> ListAll()
         {   
@@ -28,11 +32,12 @@ namespace WebApi.Products.Application
                     {
                         result?.Add(_mapper.Map<ProductDto>(item));
                     }
+                    _logger.LogInformation(message: $"[ProductService] Listing all products.");
                }               
             }
             catch(Exception ex)
             {
-                throw new Exception();
+                _logger.LogError(message: $"[ProductService] Error happend when it tried to list all products. Error: {ex}");
             }
 
             return result;
@@ -47,11 +52,12 @@ namespace WebApi.Products.Application
                 if (id > 0)
                 {
                     result = _mapper.Map<ProductDto>(await _productRepository.GetByIdAsync(id));
+                    _logger.LogInformation(message: $"[ProductService] Listing product by id: {id}");
                 }
             }
             catch(Exception ex)
             {
-                throw new Exception();
+                _logger.LogError(message: $"[ProductService] Error happend when it tried to list product by id. Error: {ex}");
             }
 
             return result;
@@ -70,11 +76,12 @@ namespace WebApi.Products.Application
                 {
                     result.Quantity = qtd;
                    await _productRepository.UpdateAsync(result);
+                   _logger.LogInformation(message: $"[ProductService] Updating product quantity by id: {id}");
                 }
             }
             catch(Exception ex)
             {
-                throw new Exception();
+                _logger.LogError(message: $"[ProductService] Error happend when it tried to update quantity of products. Error: {ex}");
             }
         }
     }
