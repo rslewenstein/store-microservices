@@ -8,23 +8,28 @@ namespace WebApi.Products.Infrastructure.Repository
     public class ProductRepository : IProductRepository
     {
         private readonly ICreateConnection _createConn;
+        private readonly ILogger _logger;
 
-        public ProductRepository(ICreateConnection createConn)
+        public ProductRepository(ICreateConnection createConn, ILogger<ProductRepository> logger)
         {
             _createConn = createConn;
+            _logger = logger;
         }
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
+            _logger.LogInformation(message: $"[ProductRepository] Getting all products async.");
             return await GetAll();
         }
 
         public async Task<Product> GetByIdAsync(int id)
         {
+            _logger.LogInformation(message: $"[ProductRepository] Getting product by id {id}");
             return await GetById(id);
         }
 
         public async Task UpdateAsync(Product entity)
         {
+            _logger.LogInformation(message: $"[ProductRepository] Updating product.");
             await Update(entity);
         }
 

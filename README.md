@@ -18,7 +18,7 @@
         - [x] - Mapper
         - [x] - SQLite Database
         - [x] - RabbitMQ (Consumer)
-        - [ ] - Logger
+        - [x] - Logger
         - [ ] - Unit Tests
     - ShoppingCart WebApi:
         - [x] - Clean Architecture
