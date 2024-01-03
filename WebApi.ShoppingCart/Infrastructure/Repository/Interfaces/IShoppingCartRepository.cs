@@ -6,6 +6,6 @@ namespace WebApi.ShoppingCart.Infrastructure.Repository.Interfaces
     {
         Task SaveAsync(ShoppingCartEntity entity);
         Task<ShoppingCartEntity> GetByShoppingCartIdAsync(int shoppingCartId);
-        Task<int> GetLastByIdAsync();
+        Task<int> GetLastIdAsync();
     }
 }

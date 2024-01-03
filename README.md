@@ -4,7 +4,7 @@
 - Basically there are 2 WebApis: Product and Shopping Cart.
 - The Product Api sends a products list or unique product (get by id) to Front-end app, using HTTP requests.
 - The front-end app sends to ShoppingCart Api by HTTP request: [UserId, ProductId, Quantity, Price].
-- The ShoppingCart Api sends by messaging (RabbitMQ) to Products Api: [ProductId and Qunatity].
+- The ShoppingCart Api sends by messaging (RabbitMQ) to Products Api: [ProductId and Quantity].
 - Product Api consumes the queue and update the quantity by ProductId.
 
 <img src="Util/img/store.jpg" height="400px" />
@@ -18,7 +18,7 @@
         - [x] - Mapper
         - [x] - SQLite Database
         - [x] - RabbitMQ (Consumer)
-        - [ ] - Logger
+        - [x] - Logger
         - [ ] - Unit Tests
     - ShoppingCart WebApi:
         - [x] - Clean Architecture

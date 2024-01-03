@@ -7,6 +7,12 @@ namespace WebApi.ShoppingCart.Infrastructure.Messaging
 {
     public class MessageConnection : IMessageConnection
     {
+        private readonly ILogger _logger;
+
+        public MessageConnection(ILogger<MessageConnection> logger)
+        {
+            _logger = logger;
+        }
         public void SendMessageToProduct(string orders)
         {
             var connectionFactory = new ConnectionFactory() { HostName = "localhost" };
@@ -31,18 +37,20 @@ namespace WebApi.ShoppingCart.Infrastructure.Messaging
                     exchange: "",
                     routingKey: "update_product_quantity",
                     basicProperties: null,
-                    body: body);   
+                    body: body);
+
+                _logger.LogInformation(message: $"[MessageConnection] Sending message to Message Broker");    
             }
         }
 
         private void Confirm_Event(object sender, BasicAckEventArgs e)
         {
-            Console.WriteLine("Ack");
+            _logger.LogInformation(message: $"[MessageConnection] Message ACK");
         }
 
         private void NotConfirm_Event(object sender, BasicNackEventArgs e)
         {
-            Console.WriteLine("Nack");
+            _logger.LogInformation(message: $"[MessageConnection] Message NACK");
         }
     }
 }

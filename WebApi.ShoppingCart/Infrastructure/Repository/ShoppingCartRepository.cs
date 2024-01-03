@@ -8,24 +8,29 @@ namespace WebApi.ShoppingCart.Infrastructure.Repository
     public class ShoppingCartRepository : IShoppingCartRepository
     {
         private readonly ICreateConnection _createConn;
+        private readonly ILogger _logger;
 
-        public ShoppingCartRepository(ICreateConnection createConn)
+        public ShoppingCartRepository(ICreateConnection createConn, ILogger<ShoppingCartRepository> logger)
         {
             _createConn = createConn;
+            _logger = logger;
         }
 
         public async Task<ShoppingCartEntity> GetByShoppingCartIdAsync(int shoppingCartId)
         {
+            _logger.LogInformation(message: $"[ShoppingCartRepository] GetByShoppingCartId: {shoppingCartId}");
             return await GetById(shoppingCartId);
         }
 
-        public async Task<int> GetLastByIdAsync()
+        public async Task<int> GetLastIdAsync()
         {
-            return await GetLastById();
+            _logger.LogInformation(message: $"[ShoppingCartRepository] Get Last Id");
+            return await GetLastId();
         }
 
         public async Task SaveAsync(ShoppingCartEntity entity)
         {
+            _logger.LogInformation(message: $"[ShoppingCartRepository] Saving...");
             await Save(entity);
         }
 
@@ -43,7 +48,7 @@ namespace WebApi.ShoppingCart.Infrastructure.Repository
             return await connection.QueryFirstAsync<ShoppingCartEntity>(sql, new { id });
         }
 
-        private async Task<int> GetLastById()
+        private async Task<int> GetLastId()
         {
             using var connection = _createConn.CreateConnectionDb();
             var sql = 
