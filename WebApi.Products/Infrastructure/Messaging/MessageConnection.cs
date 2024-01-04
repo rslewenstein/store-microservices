@@ -54,9 +54,9 @@ namespace WebApi.Products.Infrastructure.Messaging
                     var message = Encoding.UTF8.GetString(body);
                     var listDto = RemoveQuotes(message);
                     await UpdateQuantityRepositoryAsync(listDto);
+                    _logger.LogInformation(message: $"[MessageConnection] Receiving message from ShoppingCart Api");
                 }
 
-                _logger.LogInformation(message: $"[MessageConnection] Receiving message from ShoppingCart Api");
             }
         }
 
