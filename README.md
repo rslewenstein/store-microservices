@@ -87,3 +87,31 @@ dotnet run
 
 - It will run on:
  - http://localhost:5227/swagger/index.html
+
+ ### Installing k6 Load Test:
+ - k6 is a tool by Grafana.
+ - It's used to do load tests.
+ - To install, you can see more here: https://grafana.com/docs/k6/latest/get-started/installation/
+ - I tried use Docker container, but it didn't work for me.
+ - I use Linux and I installed in Linux.
+ 
+ #### Running k6 (https://grafana.com/docs/k6/latest/get-started/running-k6/):
+ - create a js file:
+ ```
+ k6 new 
+ or 
+ k6 new SCRIPT_NAME.js
+ ```
+
+ - You need configure the endpoint, like this:
+
+ <img src="Util/img/k6.jpg"  height="300px" />
+
+ - running your script:
+ ```
+ $ k6 run script.js
+ ```
+or  to define VUs = 10 and duration = 30s.
+ ```
+$ k6 run --vus 10 --duration 30s script.js
+ ```
