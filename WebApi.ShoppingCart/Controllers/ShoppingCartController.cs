@@ -40,6 +40,7 @@ namespace WebApi.ShoppingCart.Controllers
             try
             {
                 await _ShoppingCartService.ManageShoppingCart(dto);
+                return Ok(new { message = "Success!" });
                 _logger.LogInformation(message: $"[ShoppingCartController] Posted Shopping Cart");
             }
             catch(Exception ex)
@@ -47,8 +48,6 @@ namespace WebApi.ShoppingCart.Controllers
                 _logger.LogError(message: $"[ShoppingCartController] Error happend when it tried to post shopping cart. Error: "+ ex);
                 return BadRequest(new { message = "Error to post shopping cart" });
             }
-
-            return Ok(new { message = "ShoppingCart added" });
         }
     }
 }

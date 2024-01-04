@@ -28,7 +28,7 @@
         - [x] - RabbitMQ (Producer)
         - [x] - Logger 
         - [ ] - Unit Tests
-- [ ] - K6 Load Test
+- [x] - K6 Load Test
 - [ ] - Docker
 - [?] - Front End (I don't know if I will do it).
 
