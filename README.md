@@ -31,6 +31,7 @@
         - [x] - Load Tests - K6
         - [ ] - Unit Tests
 - [x] - Git Submodules
+- [x] - Azure Pipelines
 - [ ] - Docker
 - [?] - Front End (I don't know if I will do it).
 
@@ -136,3 +137,7 @@ or  to define VUs = 10 and duration = 30s.
  ```
 $ k6 run --vus 10 --duration 30s script.js
  ```
+
+### About Azure Pipelines:
+- You can see more about pipelines here:
+https://learn.microsoft.com/pt-br/azure/devops/pipelines/create-first-pipeline?view=azure-devops&tabs=net%2Ctfs-2018-2%2Cbrowser
