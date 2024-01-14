@@ -1,0 +1,6 @@
+[submodule "WebApi.Products"]
+	path = WebApi.Products
+	url = git@github.com:rslewenstein/WebApi.Products.git
+[submodule "WebApi.ShoppingCart"]
+	path = WebApi.ShoppingCart
+	url = git@github.com:rslewenstein/WebApi.ShoppingCart.git

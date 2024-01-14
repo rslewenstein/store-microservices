@@ -30,9 +30,28 @@
         - [x] - Logger 
         - [x] - Load Tests - K6
         - [ ] - Unit Tests
-- [x] - K6 Load Test
+- [x] - Git Submodules
 - [ ] - Docker
 - [?] - Front End (I don't know if I will do it).
+
+### Git submodules:
+- I moved the projects to their respective repositories.
+- Project WebApi.Products: 
+https://github.com/rslewenstein/WebApi.Products
+
+- Project WebApi.ShoppingCart:
+https://github.com/rslewenstein/WebApi.ShoppingCart
+
+#### - To clone a project using submodules:
+```
+git clone <URL_MAIN_PROJECT>
+```
+```
+git submodule update --init --recursive
+```
+
+- You can see more about Git Submodules here:
+https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
 ### To run RabbitMQ:
 
