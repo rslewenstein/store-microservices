@@ -51,6 +51,12 @@ git clone <URL_MAIN_PROJECT>
 git submodule update --init --recursive
 ```
 
+#### - To update a project submodule in the main project:
+- just enter the project and execute:
+```
+git pull
+```
+
 - You can see more about Git Submodules here:
 https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
