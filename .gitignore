@@ -404,7 +404,3 @@ obj/
 # Ignore all local history of files
 .history
 .ionide
-
-# Local databases
-ProductDB.db
-ShoppingCartDB.db
