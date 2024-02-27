@@ -20,7 +20,7 @@
         - [x] - RabbitMQ (Consumer)
         - [x] - Logger
         - [x] - Load Tests - K6
-        - [ ] - Unit Tests
+        - [x] - Unit Tests
     - ShoppingCart WebApi:
         - [x] - Clean Architecture
         - [x] - Dapper
@@ -31,7 +31,7 @@
         - [x] - Load Tests - K6
         - [ ] - Unit Tests
 - [x] - Git Submodules
-- [x] - Azure Pipelines
+- [x] - Azure Pipelines (Multi-Stage)
 - [ ] - Docker
 - [?] - Front End (I don't know if I will do it).
 
